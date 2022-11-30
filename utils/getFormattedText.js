@@ -1,16 +1,17 @@
 import getWeatherDescription from "./getWeatherDescription.js";
 
 const getFormattedText = (obj) => {
-    let text = ''
-    for (const key in obj) {
-        const formattedDateWithYear = new Intl.DateTimeFormat('en-GB', { dateStyle: 'full' }).format(new Date(key))
+    return Object.keys(obj).reduce((acc, item) => {
+        const formattedDateWithYear = new Intl.DateTimeFormat('en-GB', { dateStyle: 'full' }).format(new Date(item))
         const splittedFormattedDate = formattedDateWithYear.split(' ')
         splittedFormattedDate.pop()
 
         const formattedDateWithoutYear = splittedFormattedDate.join(' ')
-        text += `*${formattedDateWithoutYear}*\n${getWeatherDescription(obj[key]).join('')}\n`
-    }
-    return text
+
+        return acc + `*${formattedDateWithoutYear}*\n${getWeatherDescription(obj[item]).join('')}\n`
+
+    }, '')
 
 }
+
 export default getFormattedText
