@@ -60,7 +60,6 @@ const start = () => {
     bot.on('message', async msg => {
         const { chat: { id, first_name } } = msg
 
-
         return bot.sendMessage(id, `Hi, ${first_name}, let"s start, choose one of the options`, options)
 
 
@@ -68,10 +67,18 @@ const start = () => {
 
     bot.on('callback_query', async msg => {
         const res = await getData()
-        const convertedDate = res.list.map(item => ({ ...item, new_dt_txt: item.dt_txt.split(' ')[0] }))
-        const newData = groupBy(convertedDate, 'new_dt_txt')
+        // console.log(res)
+        let listWithConvertedDate = res.list.map(item => ({ ...item, new_dt_txt: item.dt_txt.split(' ')[0] }))
+
+        if (msg.data === '6') {
+            listWithConvertedDate = listWithConvertedDate.filter((item, index) => index % 2 !== 0)
+        }
+        const newData = groupBy(listWithConvertedDate, 'new_dt_txt')
+        console.log(newData)
 
         let str = ''
+
+
         for (let key in newData) {
             const formattedDateWithYear = new Intl.DateTimeFormat('en-GB', { dateStyle: 'full' }).format(new Date(key))
             const splittedFormattedDate = formattedDateWithYear.split(' ')
