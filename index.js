@@ -15,7 +15,7 @@ const bot = new TelegramBot(TOKEN, {
         port: process.env.PORT
     }
 })
-bot.setWebHook(`${process.env.URL}/bot${TOKEN}`)
+bot.setWebHook(`${process.env.URL_FOR_DEPLOY}/bot${TOKEN}`)
 
 console.log('Telegram bot started...')
 
